@@ -1,0 +1,45 @@
+intermediate=groff -ms -e -s
+full=-p -t -R -Kiso-10646/utf8
+pdf=-P-y -PU -Tpdf
+all_ms=`{ls *.ms}
+
+%.pdf: %.ms
+	$intermediate $pdf $stem.ms > $target
+
+main.pdf: $all_ms
+
+%.full.pdf: %.ms
+	$intermediate $full $pdf $stem.ms > $target
+
+%.ps: %.ms
+	$intermediate $pdf $stem.ms > $target
+
+%.ps.pdf: %.ms %.ps
+	ps2pdf $stem.ps $target
+
+%.embed.pdf: %.ms
+	$intermediate -P-e -Tpdf $stem.ms > $target
+
+%.ordered.pdf: %.pdf
+	# re-order so contents page 2nd
+	qpdf --empty --pages $stem.pdf 1,r1,2-r2 -- $target
+	
+%.dvi.pdf: %.ms %.dvi
+	dvipdf $stem.dvi $target
+
+%.dvi: %.ms
+	$intermediate $full -Tdvi $stem.ms > $target
+
+view:V: main.pdf
+	zathura --fork main.pdf
+
+loop:V:
+	ls *.ms | entr -s "mk &"
+
+clean:V:
+	for s in pdf ps tex.pdf ps.pdf embed.pdf dvi; do
+		if [ -f main.$s ]; then
+			rm main.$s
+			echo "- $s"
+		fi
+	done

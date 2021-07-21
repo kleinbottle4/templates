@@ -1,0 +1,12 @@
+\input amstex
+
+\documentstyle{amsppt}
+
+\title <++> \endtitle
+\author Syed Shah \endauthor
+
+\document
+
+<++>
+
+\enddocument

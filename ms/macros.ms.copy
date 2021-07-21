@@ -1,0 +1,89 @@
+.\" preproc stuff
+.R1
+accumulate
+database bib.ms
+# last name and year as in harvard
+label "@' 'D"
+short-label "D"
+bracket-label " [" "]" "; "
+sort A+
+.R2
+.EQ
+define cancel 'special Ca'
+.EN
+.de Ca
+.  ds 0s \
+\Z'\\*(0s'\
+\v'\\n(0du'\
+\D'l \\n(0wu -\\n(0hu-\\n(0du'\
+\v'\\n(0hu'
+..
+.\" No centre heading. Right heading is page no.
+.ds CH
+.ds RH %
+.\" font
+.fam T
+.nr PS 12
+.\" equation numbering: start at 0, inc by 1
+.nr eqn_no 0 1
+.nr fig_no 0 1
+.de L
+.ie '\\$1'F' .ds \\$2 \\n+[fig_no]
+.el .ds \\$1 (\\n+[eqn_no])
+..
+.\" draw a horizontal line
+.de HL
+.br
+.ie \n(.g .do nr _I \\n[.in]
+.el .nr _I \\n(.i
+\l'\\n(.lu-\\n(_Iu'
+..
+.\" Figures.
+.\" insert postscript images, make italic caption
+.\" if arg 1 = F then floating keep
+.de FIGS
+.ie '\\$1'F' \{\
+.shift
+.KF
+.\}
+.el .KS
+.PSPIC \\$*
+.QP
+.B Figure\0\\n[fig_no].
+..
+.
+.de FIGE
+.KE
+..
+.\" bullet point
+.de BP
+.IP \(bu \\$1
+..
+.\" MH 1 Foo Bar
+.\" Do NH
+.\" Foo Bar but also add Foo Bar to table of contents, and make
+.\" bold unless it is a subsection
+.de MH
+.NH \\$1
+.XS
+.if '\\$1'1' \{\
+.ft B
+.sp
+.\}
+.shift
+\\*[SN-DOT]	\\$*
+.XE
+.NL
+\\$*
+..
+.\" verbatim
+.de VS
+.  LD
+.  fam C
+..
+.de VE
+.  DE
+..
+.de V
+\\$3\fC\\$1\fR\\$2
+..
