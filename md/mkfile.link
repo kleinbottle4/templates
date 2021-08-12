@@ -15,6 +15,6 @@ view: main.md
 	smu main.md > main.html
 	st w3m main.html
 
-viewpdf: main.pdf
+view2: main.pdf
 	xdg-open main.pdf
 

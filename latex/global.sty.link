@@ -1,0 +1,9 @@
+% Matrices
+\newcommand{\bmat}[1]{\begin{bmatrix} #1 \end{bmatrix}}  % square  [matrix]
+\newcommand{\pmat}[1]{\begin{pmatrix} #1 \end{pmatrix}}  % round   (matrix)
+\newcommand{\qmat}[1]{\begin{Bmatrix} #1 \end{Bmatrix}}  % curly   {matrix}
+\newcommand{\dmat}[1]{\begin{vmatrix} #1 \end{vmatrix}}  % det     |matrix|
+\newcommand{\nmat}[1]{\begin{Vmatrix} #1 \end{Vmatrix}}  % norm   ||matrix||
+\newcommand{\smat}[1]{\left( \begin{smallmatrix} #1 \end{smallmatrix} \right)} % small (matrix)
+\newcommand{\tuple}[1]{\left\langle \begin{matrix} #1 \end{matrix}\right\rangle}
+\newcommand{\mat}[1]{\pmat{#1}}

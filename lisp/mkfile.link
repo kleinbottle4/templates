@@ -1,0 +1,2 @@
+goal:V:
+	sbcl --script main.lisp
