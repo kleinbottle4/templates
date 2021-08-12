@@ -47,10 +47,6 @@
 .\" figure numbering: start at 0, inc by 1
 .
 .nr fig 0 1
-.
-.de FIGL
-.  ds \\$1 \\n[Fig]
-..
 .de (FIG
 .ds Fig "{\\n[H1]\\*[num-sep]\\n+[fig]}
 .  ie '\\$1'F' \{\
@@ -75,45 +71,7 @@
 .\" -------------------------------------------------------
 .ds num-sep "\(hy\"phen
 .
-.\" diagnol strike through terms
-.EQ
-define CN 'special CANCEL'
-.EN
-.de CANCEL
-.  ds 0s \
-\Z'\\*(0s'\
-\v'\\n(0du'\
-\D'l \\n(0wu -\\n(0hu-\\n(0du'\
-\v'\\n(0hu'
-..
-.EQ
-define BOX 'special "BOX"'
-.EN
-.de BOX
-.  ds 0s \
-\Z'\h'1n'\\*(0s'\
-\Z'\
-\v'\\n(0du+1n'\
-\D'l \\n(0wu+2n 0'\
-\D'l 0 -\\n(0hu-\\n(0du-2n'\
-\D'l -\\n(0wu-2n 0'\
-\D'l 0 \\n(0hu+\\n(0du+2n'\
-'\
-\h'\\n(0wu+2n'
-.  nr 0w +2n
-.  nr 0d +1n
-.  nr 0h +1n
-..
-.\" numbering
-.\" ---------
 .nr eq 0 1
-.nr eqn*block 0
-.de QN
-.ie '\\$1'A' \{\
-.	ds eqn-\\$2 \\*[Eq]
-.\}
-.el \\$3equation \\*[eqn-\\$1]\\$2
-..
 .de @EQ
 .  br
 .  ds eqn*num "\\$2
@@ -147,18 +105,69 @@ define BOX 'special "BOX"'
 .  if \\n[eqn*type]=2 .EQN-HTML-IMAGE
 .  nf
 ..
-.\" Lemmae, proofs, theorems
+.\" diagnol strike through terms
+.EQ
+define CN 'special CANCEL'
+.EN
+.de CANCEL
+.  ds 0s \
+\Z'\\*(0s'\
+\v'\\n(0du'\
+\D'l \\n(0wu -\\n(0hu-\\n(0du'\
+\v'\\n(0hu'
+..
+.EQ
+define BOX 'special "BOX"'
+.EN
+.de BOX
+.  ds 0s \
+\Z'\h'1n'\\*(0s'\
+\Z'\
+\v'\\n(0du+1n'\
+\D'l \\n(0wu+2n 0'\
+\D'l 0 -\\n(0hu-\\n(0du-2n'\
+\D'l -\\n(0wu-2n 0'\
+\D'l 0 \\n(0hu+\\n(0du+2n'\
+'\
+\h'\\n(0wu+2n'
+.  nr 0w +2n
+.  nr 0d +1n
+.  nr 0h +1n
+..
+.\" Lemmae
 .\" -------------------------------------------------------
 .nr lem 0 1
-.
 .de LM
 .  ds Lem "\\$* [\\n[H1]\\*[num-sep]\\n+[lem]]
 .  SH
 \\*[Lem].
 ..
-.de LN
-.ie '\\$1'A' \{\
-.	ds lem-\\$2 \\*[Lem]
-.\}
-.el \\$3\\*[lem-\\$1]\\$2
+.\" Time travelling labels and references (unsafe)
+.\" + Need to compile twice
+.\" -------------------------------------------------------
+.\" add label (general)
+.de #A
+.  opena ref main.ref
+.  ie '1'\\n[.$]' .ds s \\*[SN-NO-DOT]
+.  el .ds s \\$2
+.  write ref .ds ref.\\$1 \\*s
+.  close ref
+..
+.\" equations
+.de #E
+.  #A e.\\$1 \\*[Eq]
+..
+.\" lemmae
+.de #L
+.  #A l.\\$1 \\*[Prf]
+..
+.\" figures
+.de #F
+.  #A f.\\$1 \\*[Fig]
+..
+.\" reference a label
+.de #R
+.  ds s \\*[ref.\\$1]
+.  if ''\\*s' .ds s "???
+\\$3\\*s\\$2
 ..

@@ -1,12 +1,14 @@
 # vim: set ft=sh:
-opts="-ms -e -b"
+opts="-ms -e -b -U"
 pdf=-Tpdf
 goal=main.so.ea.tc.ps
 goal2=main.so.ea.tc.ps.pdf
 
-goal:V: $goal
+goal:V: $goal main.ms
+	touch main.ms
 
-goal2:V: $goal2
+goal2:V: $goal2 main.ms
+	touch main.ms
 
 view:V: $goal
 	zathura --fork $prereq
@@ -62,7 +64,7 @@ loop:V:
 
 clean:V:
 	del=""
-	for ext in dvi em pdf ps tc u8 ea so; do
+	for ext in dvi em pdf ps tc u8 ea so ref; do
 		for f in $(echo main.${ext}*); do
 			if [ -f $f ]; then
 				rm $f
