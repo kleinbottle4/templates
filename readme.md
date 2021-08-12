@@ -1,5 +1,9 @@
 # templates
 
+Requires `mk`
+
+bash:
+
 	template ()
 	{
 	    tpl_dir="$HOME/tp"
@@ -13,4 +17,3 @@
 	
 	alias tp="template"
 
-Many require `mk` rather than `make`.
