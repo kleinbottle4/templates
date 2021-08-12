@@ -1,0 +1,164 @@
+.\" Global ms macros
+.\" vim: set nofoldenable:
+.\" vim: set ft=groff:
+.\"
+.\" Formatting
+.\" -------------------------------------------------------
+.\" bullet point
+.de BP
+.IP \(bu
+..
+.\" formats
+.de (C
+.  LD
+.  fam C
+..
+.de )C
+.  DE
+..
+.de (Q
+.  QS
+.  ft I
+..
+.de )Q
+.  QE
+..
+.\" draw a horizontal line (from -me)
+.de HL
+.  br
+.  ie \n(.g .do nr _I \\n[.in]
+.  el .nr _I \\n(.i
+\l'\\n(.lu-\\n(_Iu'
+..
+.\" Sections
+.\" -------------------------------------------------------
+.\" Amend NH to reset eq, fig and lem numbering
+.am @NH
+.if \\n[nh*hl]=1 \{\
+.  nr eq 0
+.  nr lem 0
+.  nr fig 0
+.\}
+..
+.\" Figures.
+.\" -------------------------------------------------------
+.\" insert postscript images, make italic caption
+.\" if arg 1 = F then floating keep
+.\" figure numbering: start at 0, inc by 1
+.
+.nr fig 0 1
+.
+.de FIGL
+.  ds \\$1 \\n[Fig]
+..
+.de (FIG
+.ds Fig "{\\n[H1]\\*[num-sep]\\n+[fig]}
+.  ie '\\$1'F' \{\
+.    shift
+.    KF
+.  \}
+.  el .KS
+.  HL
+.  B1
+.  PSPIC \\$*
+.  B2
+.  QP
+.  ft I
+.  BI "Figure \\*[Fig].
+..
+.de )FIG
+.  LP
+.  HL
+.  KE
+..
+.\" Equations and their numbering
+.\" -------------------------------------------------------
+.ds num-sep "\(hy\"phen
+.
+.\" diagnol strike through terms
+.EQ
+define CN 'special CANCEL'
+.EN
+.de CANCEL
+.  ds 0s \
+\Z'\\*(0s'\
+\v'\\n(0du'\
+\D'l \\n(0wu -\\n(0hu-\\n(0du'\
+\v'\\n(0hu'
+..
+.EQ
+define BOX 'special "BOX"'
+.EN
+.de BOX
+.  ds 0s \
+\Z'\h'1n'\\*(0s'\
+\Z'\
+\v'\\n(0du+1n'\
+\D'l \\n(0wu+2n 0'\
+\D'l 0 -\\n(0hu-\\n(0du-2n'\
+\D'l -\\n(0wu-2n 0'\
+\D'l 0 \\n(0hu+\\n(0du+2n'\
+'\
+\h'\\n(0wu+2n'
+.  nr 0w +2n
+.  nr 0d +1n
+.  nr 0h +1n
+..
+.\" numbering
+.\" ---------
+.nr eq 0 1
+.nr eqn*block 0
+.de QN
+.ie '\\$1'A' \{\
+.	ds eqn-\\$2 \\*[Eq]
+.\}
+.el \\$3equation \\*[eqn-\\$1]\\$2
+..
+.de @EQ
+.  br
+.  ds eqn*num "\\$2
+.  ie '\\$1'L' .nr eqn*type 0
+.  el \{\
+.    ie '\\$1'I' .nr eqn*type 1
+.    el \{\
+.      nr eqn*type 2
+.      if !'\\$1'C' .ds eqn*num "\\$1
+.    \}
+.  \}
+.\" additions (provins)
+.  ie '\\*[eqn*num]'' \{\
+.    nr eq +1
+.    ds Eq (\\n[H1]\\*[num-sep]\\n[eq])
+.    ds eqn*num \\*[Eq]
+.  \}
+.  el .if '\\*[eqn*num]'N' .ds eqn*num
+.\" end provins
+.  di eqn*div
+.  in 0
+.  if '\*(.T'html' \{\
+.         nr eqn*ll \\n[.l]
+.         ll 1000n
+.  \}
+.  if \\n[eqn*type]=0 .EQN-HTML-IMAGE-LEFT
+.  if \\n[eqn*type]=1 \{\
+.     if '\*(.T'html' .RS
+.  EQN-HTML-IMAGE-INLINE
+.  \}
+.  if \\n[eqn*type]=2 .EQN-HTML-IMAGE
+.  nf
+..
+.\" Lemmae, proofs, theorems
+.\" -------------------------------------------------------
+.nr lem 0 1
+.
+.de LM
+.  ds Lem "\\$* [\\n[H1]\\*[num-sep]\\n+[lem]]
+.  SH
+\\*[Lem].
+..
+.de LN
+.ie '\\$1'A' \{\
+.	ds lem-\\$2 \\*[Lem]
+.\}
+.el \\$3\\*[lem-\\$1]\\$2
+..

@@ -1,0 +1,8 @@
+main=main.py
+cmd=python3 $main
+
+run:V:
+	$cmd
+
+loop:V:
+	echo $main | entr -s "$cmd"

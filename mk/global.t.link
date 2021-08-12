@@ -1,0 +1,14 @@
+.nr eqn-no 0 1
+.de EQ
+.  sp
+.  ce
+.  mk
+.  ds eqn-str \\$1
+..
+.de EN
+.  rt
+.  ie '\\*[eqn-str]'' .tl '''(\\n+[eqn-no])'
+.  el .tl '''(\\*[eqn-str])'
+.  sp
+..
+.

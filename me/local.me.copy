@@ -1,0 +1,16 @@
+.\" Font sizes; paragraph spacing
+.nr pp 14
+.nr sp 14
+.nr tp 10
+.nr ps 1v
+.
+.\" Title, author, page numbering
+.de t
+.  he '\\$1''%
+.  (b C
+.  sz 18
+.  b "\\$1"
+.  sp
+.  b "\\$2"
+.  )b
+..

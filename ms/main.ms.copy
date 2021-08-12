@@ -1,8 +1,9 @@
-.so macros.ms
+.so global.ms
+.so local.ms
 .TL
 <++>
 .AU
 Syed Shah
-.DA
+.ND
 .LP
 <++>

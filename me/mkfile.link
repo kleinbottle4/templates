@@ -1,0 +1,46 @@
+groff=groff
+opts=-e -me -p -R -s -t
+utf8=-Kiso-10646/utf8
+pdf=-P-y -PU -Tpdf
+all_me=`{ls *.me}
+
+%.pdf: %.me
+	$groff $opts $pdf $stem.me > $target
+
+main.pdf: $all_me
+
+%.utf8.pdf: %.me
+	$groff $opts $utf8 $pdf $stem.me > $target
+
+%.ps: %.me
+	$groff $opts $pdf $stem.me > $target
+
+%.ps.pdf: %.me %.ps
+	ps2pdf $stem.ps $target
+
+%.embed.pdf: %.me
+	$groff $opts -P-e -Tpdf $stem.me > $target
+
+%.ordered.pdf: %.pdf
+	# re-order so contents page 2nd
+	qpdf --empty --pages $stem.pdf 1,r1,2-r2 -- $target
+	
+%.dvi.pdf: %.me %.dvi
+	dvipdf $stem.dvi $target
+
+%.dvi: %.me
+	$groff $opts $full -Tdvi $stem.me > $target
+
+view:V: main.pdf
+	zathura --fork main.pdf
+
+loop:V:
+	ls *.me | entr -s "mk &"
+
+clean:V:
+	for s in pdf ps tex.pdf ps.pdf embed.pdf dvi; do
+		if [ -f main.$s ]; then
+			rm main.$s
+			echo "- $s"
+		fi
+	done

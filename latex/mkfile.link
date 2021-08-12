@@ -1,0 +1,18 @@
+%.pdf: %.tex
+	pdflatex $stem
+
+main.pdf:
+
+view: main.pdf
+	zathura --fork main.pdf
+
+loop:
+	ls main.tex | entr -s "mk &"
+
+clean:
+	for s in pdf ps tex~ log dvi aux toc; do
+		if [ -f main.$s ]; then
+			rm main.$s
+			echo "- $s"
+		fi
+	done

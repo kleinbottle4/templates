@@ -1,0 +1,22 @@
+.\" preproc stuff
+.ig
+.R1
+.accumulate
+.database bib.ms
+.# last name and year as in harvard
+.label "@' 'D"
+.short-label "D"
+.bracket-label " [" "]" "; "
+.sort A+
+.R2
+..
+..
+.\" Headings, footers and sections
+.ds CH
+.ds CF %
+.nr PSINCR 1p
+.nr GROWPS 3
+.
+.\" font
+.fam T
+.nr PS 12
