@@ -3,10 +3,14 @@
 \documentstyle{amsppt}
 
 \title <++> \endtitle
-\author Syed Shah \endauthor
+\author <++> \endauthor
 
 \document
 
+$$
+\align
 <++>
+\endalign
+$$
 
 \enddocument
