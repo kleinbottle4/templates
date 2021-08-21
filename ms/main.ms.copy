@@ -1,9 +1,17 @@
-.so global.ms
-.so local.ms
+.so global/all.ms
+.so main.ref
+.
 .TL
 <++>
 .AU
 <++>
 .ND
+.
+.so main.toc
+.PX
+.
+.+c "<++>"
+.
+.+h "<++>"
+.
 .LP
-<++>

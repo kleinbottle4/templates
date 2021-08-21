@@ -1,0 +1,10 @@
+all: main.pdf
+
+%.pdf: %.tex
+	pdftex $<
+
+view: main.pdf
+	zathura --fork main.pdf
+
+clean:
+	-rm main.pdf main.log main.toc main.aux

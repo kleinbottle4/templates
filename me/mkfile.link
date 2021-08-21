@@ -1,46 +1,58 @@
-groff=groff
-opts=-e -me -p -R -s -t
-utf8=-Kiso-10646/utf8
-pdf=-P-y -PU -Tpdf
-all_me=`{ls *.me}
+# vim: set ft=sh:
+opts="-me -b -e -t"
+goal=main.s.u.ps.pdf
+goal2=main.s.u.e.ps.pdf
 
-%.pdf: %.me
-	$groff $opts $pdf $stem.me > $target
+goal:V: $goal
+	touch main.me
 
-main.pdf: $all_me
+goal2:V: $goal2
 
-%.utf8.pdf: %.me
-	$groff $opts $utf8 $pdf $stem.me > $target
+view:V: goal
+	zathura --fork $goal
 
-%.ps: %.me
-	$groff $opts $pdf $stem.me > $target
+view2:V: goal2
+	zathura --fork $goal2
 
-%.ps.pdf: %.me %.ps
+%.ps.pdf: %.ps
 	ps2pdf $stem.ps $target
 
-%.embed.pdf: %.me
-	$groff $opts -P-e -Tpdf $stem.me > $target
+%.ps: %.me
+	groff $opts $stem.me > $target
 
-%.ordered.pdf: %.pdf
-	# re-order so contents page 2nd
+%.pdf: %.ps
+	groff $opts -Tpdf $prereq > $target
+
+%.X:V: %.me
+	groff $opts -TX100-12 $prereq
+
+%.s.me: %.me
+	soelim $prereq > $target
+
+%.e.me: %.me
+	myeqn < $stem.me > $target
+
+%.u.me: %.me
+	preconv $stem.me > $target
+
+%.o.pdf: %.pdf
 	qpdf --empty --pages $stem.pdf 1,r1,2-r2 -- $target
-	
-%.dvi.pdf: %.me %.dvi
-	dvipdf $stem.dvi $target
+
+%.o1.pdf: %.pdf
+	qpdf --empty --pages $stem.pdf r1,1-r2 -- $target
+
+%.dvi.pdf: %.dvi
+	dvipdf $prereq $stem.me
+
+%.dvi.ps: %.dvi
+	dvips $prereq -o $stem.me
 
 %.dvi: %.me
-	$groff $opts $full -Tdvi $stem.me > $target
-
-view:V: main.pdf
-	zathura --fork main.pdf
+	groff $opts -Tdvi $stem.me > $target
 
 loop:V:
 	ls *.me | entr -s "mk &"
 
 clean:V:
-	for s in pdf ps tex.pdf ps.pdf embed.pdf dvi; do
-		if [ -f main.$s ]; then
-			rm main.$s
-			echo "- $s"
-		fi
-	done
+	rm main.ref
+	rm main.s.*

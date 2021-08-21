@@ -1,0 +1,29 @@
+s/es /\\emptyset /g
+s/mo /\\in /g
+s/fa /\\forall /g
+s/te /\\exists /g
+s/nm /\\not\in /g
+s/sb /\\subset /g
+s/nb /\\not\subset /g
+s/sp /\\supset /g
+s/nc /\\not\supset /g
+s/ib /\\subseteq /g
+s/ip /\\supseteq /g
+s/ca /\\cap /g
+s/cu /\\cup /g
+s/
+s/mat \begin{matrix}<CR><CR>\end{matrix}<Up> 
+s/
+s/* \times 
+s/. \cdot 
+s/# \mathbf 
+inoremap ,( \left( 
+inoremap ,) \right) 
+inoremap ,[ \left[ 
+inoremap ,] \right] 
+inoremap ,{ \left{ 
+inoremap ,} \right} 
+
+inoremap .AB \begin{abstract}
+inoremap .AE \end{abstract}
+inoremap .CW \begin{tt}\end{tt}<Left><Left><Left><Left><Left><Left><Left><Left>

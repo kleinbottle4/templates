@@ -1,17 +1,19 @@
-CC     = tcc
-OBJ    = main.c
-OUT    = a.out
-CMD    = $(CC) $(OBJ) -o $(OUT)
+CC=tcc -g
+OBJ=main.c
+OUT=a.out
+CMD=$CC $OBJ -o $OUT
 
+goal: $OUT
+	./$OUT
 
-$(OUT) : $(OBJ)
-	$(CMD)
+$OUT: $OBJ
+	$CMD
 
-view:
-	./$(OUT)
+view:V:
+	./$OUT
 
-clean :
-	rm $(OUT)
+clean:V:
+	rm $OUT
 
 loop:
-	echo $(OBJ) | entr -s "$(CMD)"
+	echo $OBJ | entr -s "$CMD"

@@ -1,14 +1,21 @@
-.nr eqn-no 0 1
-.de EQ
-.  sp
-.  ce
-.  mk
-.  ds eqn-str \\$1
+.nr eqn*n 0
+.nr chapter*n 0
+.\".de EQ
+.\".  @c 0
+.\".  sp
+.\".  ce
+.\".  mk
+.\".  nr eqn*n +1
+.\".  ds eqn*s (\\n[chapter*n].\\n[eqn*n])
+.\"..
+.\".de EN
+.\".  rt
+.\".  tl '''\\*[eqn*s]'
+.\".  sp
+.\"..
+.am h
+.  nr chapter*n +1
 ..
-.de EN
-.  rt
-.  ie '\\*[eqn-str]'' .tl '''(\\n+[eqn-no])'
-.  el .tl '''(\\*[eqn-str])'
-.  sp
+.de +c
+.  he \\$*
 ..
-.

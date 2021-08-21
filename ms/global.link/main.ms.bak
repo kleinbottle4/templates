@@ -1,5 +1,4 @@
 .\" Global ms macros
-.\" vim: set nofoldenable:
 .\" vim: set ft=groff:
 .\"
 .\" Formatting
@@ -9,12 +8,21 @@
 .IP \(bu
 ..
 .\" formats
+.nr cod 0
 .de (C
-.  LD
-.  fam C
+.  nr cod +1
+.  ds Cod "Listing \\n[H1].\\n[cod]
+.  #C \\$1
+.  SH
+\\*[Cod]\&. \\$2
+.  HL
+.  nf
+.  ft CR
 ..
 .de )C
-.  DE
+.  fi
+.  HL
+.  fam
 ..
 .de (Q
 .  QS
@@ -33,6 +41,7 @@
 .\" Sections
 .\" -------------------------------------------------------
 .\" Amend NH to reset eq, fig and lem numbering
+.nr GROWPS 3
 .am @NH
 .if \\n[nh*hl]=1 \{\
 .  nr eq 0
@@ -40,37 +49,69 @@
 .  nr fig 0
 .\}
 ..
+.\" Headings and footers
+.ds CH
+.EF !\fB%\fP!!\E*[Ch@s]!
+.OF !\E*[SN-DOT] \E*[Nh@s]!!\fB%\fP!
+.\" chapters
+.de Ch
+.  ds Ch@s "\\$1
+.  bp
+.  Nh 1 "\\$1
+.  HL
+..
+.open toc main.toc
+.de Nh
+.  NH \\$1
+.  ds Nh@s "\\$2
+\\*[Nh@s]
+.  write toc .XS \\n[%]
+.  ie '1'\\n[nh*hl]' \{\
+.    write toc .sp
+.    write toc .ft B
+.    write toc "\\*[SN-DOT]	\\*[Nh@s]
+.  \}
+.  el .write toc "	\\*[SN-DOT]	\\*[Nh@s]
+.  write toc .XE
+..
 .\" Figures.
 .\" -------------------------------------------------------
-.\" insert postscript images, make italic caption
-.\" if arg 1 = F then floating keep
-.\" figure numbering: start at 0, inc by 1
+.\" .(F [F = floating] label <arguments to PSPIC>
+.\" Caption text
+.\" .)F
+.ds num-sep .\" - also used by Eq and Lem
 .
 .nr fig 0 1
-.de (FIG
-.ds Fig "{\\n[H1]\\*[num-sep]\\n+[fig]}
+.de (F
 .  ie '\\$1'F' \{\
 .    shift
 .    KF
 .  \}
 .  el .KS
+.  ds Fig "Figure \\n[H1]\\*[num-sep]\\n+[fig]
+.  #F \\$1
+.  shift
+.  SH
+\\*[Fig].
 .  HL
+.  QS
 .  B1
 .  PSPIC \\$*
 .  B2
-.  QP
-.  ft I
-.  BI "Figure \\*[Fig].
-..
-.de )FIG
 .  LP
+.  ft I
+..
+.if '\*[.T]'dvi' .nr PSINCR 0.5p
+.de )F
+.  QE
 .  HL
 .  KE
 ..
 .\" Equations and their numbering
 .\" -------------------------------------------------------
-.ds num-sep "\(hy\"phen
-.
+.de QED
+.  tl '''\\[sq]'
+..
 .nr eq 0 1
 .de @EQ
 .  br
@@ -105,10 +146,12 @@
 .  if \\n[eqn*type]=2 .EQN-HTML-IMAGE
 .  nf
 ..
-.\" diagnol strike through terms
 .EQ
+grfont "\*[FAM]R"
 define CN 'special CANCEL'
+define BOX 'special "BOX"'
 .EN
+.\" diagnol strike through terms
 .de CANCEL
 .  ds 0s \
 \Z'\\*(0s'\
@@ -116,9 +159,6 @@ define CN 'special CANCEL'
 \D'l \\n(0wu -\\n(0hu-\\n(0du'\
 \v'\\n(0hu'
 ..
-.EQ
-define BOX 'special "BOX"'
-.EN
 .de BOX
 .  ds 0s \
 \Z'\h'1n'\\*(0s'\
@@ -137,21 +177,32 @@ define BOX 'special "BOX"'
 .\" Lemmae
 .\" -------------------------------------------------------
 .nr lem 0 1
-.de LM
-.  ds Lem "\\$* [\\n[H1]\\*[num-sep]\\n+[lem]]
+.de (L
+.  KS
+.  ds Lem "\\$1 \\n[H1]\\*[num-sep]\\n+[lem]
+.  if !'\\$2'' .#L \\$2
+.  fp 1 \\*[FAM]I
 .  SH
 \\*[Lem].
+.  ft I
+\\$3
+..
+.de )L
+.  KE
+.  fp 1 \\*[FAM]R
+.  sp
 ..
 .\" Time travelling labels and references (unsafe)
 .\" + Need to compile twice
 .\" -------------------------------------------------------
+.open ref main.ref
+.\" don't need to close because groff does so automatically at end?
+.\"
 .\" add label (general)
 .de #A
-.  opena ref main.ref
 .  ie '1'\\n[.$]' .ds s \\*[SN-NO-DOT]
 .  el .ds s \\$2
 .  write ref .ds ref.\\$1 \\*s
-.  close ref
 ..
 .\" equations
 .de #E
@@ -159,15 +210,19 @@ define BOX 'special "BOX"'
 ..
 .\" lemmae
 .de #L
-.  #A l.\\$1 \\*[Prf]
+.  #A l.\\$1 "\\*[Lem]
+..
+.\" code listings
+.de #C
+.  #A c.\\$1 "\\*[Cod]
 ..
 .\" figures
 .de #F
-.  #A f.\\$1 \\*[Fig]
+.  #A f.\\$1 "\\*[Fig]
 ..
 .\" reference a label
 .de #R
-.  ds s \\*[ref.\\$1]
+.  ds s "\\*[ref.\\$1]
 .  if ''\\*s' .ds s "???
 \\$3\\*s\\$2
 ..

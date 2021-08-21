@@ -1,0 +1,68 @@
+# vim: set ft=make:
+opts = -mk -b -e -t -U
+goal = main.s.e.tc.ps.pdf
+goal2 = main.s.e.tc.dvi.pdf
+
+goal: dummy $(goal)
+
+goal2: dummy $(goal2)
+
+view: goal
+	zathura --fork $(goal)
+
+view2: goal2
+	zathura --fork $(goal2)
+
+dummy:
+	soelim main.ms | myeqn | eqn | troff -ms -U > /dev/null
+
+%.ps.pdf: %.ps
+	ps2pdf $< $@
+
+%.ps: %.ms
+	groff $(opts) $< > $@
+
+%.pdf: %.ms
+	groff $(opts) -Tpdf $< > $@
+
+%.X: %.ms
+	groff $(opts) -TX100-12 $<
+
+%.s.ms: %.ms $(shell ./depends.sh main.ms)
+	soelim $< > $@
+
+%.tc.ms: %.ms
+	./toc.py < $< > $@
+
+%.e.ms: %.ms
+	myeqn < $< > $@
+
+%.u.ms: %.ms
+	preconv $< > $@
+
+%.o.pdf: %.pdf
+	qpdf --empty --pages $< 1,r1,2-r2 -- $@
+
+%.o1.pdf: %.pdf
+	qpdf --empty --pages $< r1,1-r2 -- $@
+	
+%.dvi.pdf: %.dvi
+	dvipdf $< $@
+
+%.dvi.ps: %.dvi
+	dvips $< -o $@
+
+%.dvi: %.ms
+	groff $(opts) -Tdvi $< > $@
+
+loop:
+	ls *.ms | entr -s "make &"
+
+%.list: %
+	./list.sh $< > $@
+
+del := $(wildcard main.ref main.toc main.s.* *.list)
+clean:
+	rm -I $(del)
+
+.PHONY: goal goal2 loop clean dummy
