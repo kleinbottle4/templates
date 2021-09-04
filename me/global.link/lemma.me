@@ -1,0 +1,13 @@
+.\" vim: set ft=groff:
+.\" Lemmae
+.nr lem 0 1
+.de (lem
+.  ds Lem "\\$1 \\n(ch.\\n+[lem]
+.  if !'\\$2'' .#l \\$2
+.  nr pf 2
+.  uh "\\*[Lem].\ \ \fI\\$3\fP"
+..
+.de )lem
+.  nr pf 1
+.  sp
+..

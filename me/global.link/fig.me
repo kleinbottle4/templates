@@ -1,36 +1,28 @@
 .\" vim: set ft=groff:
 .\" Figures.
 .\" -------------------------------------------------------
-.\" .(F [F = floating] label <arguments to PSPIC>
+.\" .(fig [F = floating] label <arguments to PSPIC>
 .\" Caption text
-.\" .)F
+.\" .)fig
 .ds num-sep .\" - also used by eqn*num and Lem
 .
 .nr fig 0 1
-.de (F
-.  ie '\\$1'F' \{\
-.    shift
-.    KF
-.  \}
-.  el .KS
-.  ds Fig "Figure \\n[H1]\\*[num-sep]\\n+[fig]
-.  #F \\$1
+.de (fig
+.  ds Fig "Figure \\n[ch]\\*[num-sep]\\n+[fig]
+.  if !''\\$1' .#f \\$1
 .  shift
-.  SH
-\\*[Fig].
-.  HL
-.  QS
-.  B1
+.
+.  (z L F
+.  uh "\\*[Fig]."
+.  hl
 .  PSPIC \\$*
-.  B2
-.  LP
+.  lp
 .  ad c \" centre justified
 .  ft I
 ..
-.de )F
+.de )fig
 .  br
+.  hl
+.  )z
 .  ad n \" normal justified
-.  QE
-.  HL
-.  KE
 ..

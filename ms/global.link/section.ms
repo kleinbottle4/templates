@@ -1,8 +1,7 @@
 .\" Sections
 .\" -------------------------------------------------------
 .\" Amend NH to reset eq, fig and lem numbering
-.ie '\*[.T]'dvi' .nr PSINCR 0.5p
-.el .nr PSINCR 4p
+.nr PSINCR 2p
 .nr GROWPS 3
 .am @NH
 .  if \\n[nh*hl]=1 \{\

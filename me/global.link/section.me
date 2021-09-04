@@ -1,0 +1,70 @@
+.\" .sh adds entries to contents.
+.\" If new section, bold.
+.ds td \n(dy \*(mo \n(y4
+.open toc main.toc
+.de TL
+.\"  he '\\$1'''
+.  ce 10
+.  sz +5
+.  ft B
+.  hl
+..
+.de AU
+.  hl
+.  sz -2.5
+.  ft I
+.  sp
+.  ce 0
+..
+.de DA
+.  sp
+.  ft R
+.  i "\\*(td
+..
+.am sh
+.  ds sh-string "\\$2
+.  write toc .(x
+.  nr i 2 1
+.  while (\\ni < \\n[$0]) \{\
+.    nr i +1
+.    writec toc \t
+.  \}
+.  write toc \\*($n\t\\$2
+.  write toc .)x \\n%
+..
+.ds Chapter Chapter \" can be changed to match language
+.de $C
+.\" $1 = (Chapter|Appendix)
+.\" $2 = \n(ch
+.\" $3 = name of chapter
+.  ds ch-string \\$3
+.  ds sh-string \\*[ch-string]
+.  sx 1 \" section depth back to 1
+.  \" Increment section no.
+.  ie 'Chapter'\\$1' \{\
+.    nr $1 \\n(ch
+.    ds first-word \\*[Chapter]
+.  \}
+.  el \{\
+.    nr $1 +1
+.    ds first-word \\$1
+.  \}
+.  write toc .(x
+.  write toc .  sp
+.  write toc .  ft B
+.  write toc \\*[first-word] \\n[ch].   \\*[ch-string]
+.  write toc .  ft
+.  write toc .)x _
+..
+.de -c \" end chapter
+.  uh "Chapter Notes"
+.  pd \" print delayed text
+..
+.de TOC
+.  ds TOC "Table of Contents
+.  ds ch-string \\*[TOC]
+.  ds sh-string \\*[TOC]
+.  ds $n 0
+.  +c "\\*[TOC]"
+.  xp
+..

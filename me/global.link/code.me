@@ -1,0 +1,18 @@
+.\" vim: set ft=groff:
+.\" code listings
+.nr cod 0
+.de (cod
+.  nr cod +1
+.  ds Cod "Listing \\*($n.\\n[cod]
+.  if !''\\$1' .#c \\$1
+.  uh "\\*[Cod]. \fI\\$2\fP"
+.  hl
+.  nf
+.  fam C
+.  ft R
+..
+.de )cod
+.  fi
+.  hl
+.  fam
+..

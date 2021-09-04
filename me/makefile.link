@@ -1,7 +1,7 @@
 # vim: set ft=make:
-opts = -ms -k -b -e -t -U
+opts = -me -k -b -e -t -p -U -R
 goal = main.s.e.ps.pdf
-goal2 = main.s.e.dvi.pdf
+goal2 = main.s.e.pdf
 
 goal: dummy $(goal)
 
@@ -13,32 +13,35 @@ view: goal
 view2: goal2
 	zathura --fork $(goal2)
 
-dummy: $(shell ./global/depends.sh main.ms)
-	soelim main.ms | myeqn | eqn | troff -ms -U > /dev/null
+dummy: $(shell ./global/depends.sh main.me)
+	soelim main.me | myeqn | eqn | troff -me -U 1> /dev/null 2> /dev/null
 
 %.ps.pdf: %.ps
 	ps2pdf $< $@
 
-%.ps: %.ms
+%.ps: %.me
 	groff $(opts) $< > $@
 
-%.pdf: %.ms
+%.pdf: %.me
 	groff $(opts) -Tpdf $< > $@
 
-%.X: %.ms
+%.X: %.me
 	groff $(opts) -TX100-12 $<
 
-%.s.ms: %.ms
+%.s.me: %.me
 	soelim $< > $@
 
-main.s.ms: $(shell ./global/depends.sh main.ms)
-	soelim main.ms > main.s.ms
+main.s.me: $(shell ./global/depends.sh main.me)
+	soelim main.me > main.s.me
 
-%.tc.ms: %.ms
-	./toc.py < $< > $@
+#%.tc.me: %.me
+#	./toc.py < $< > $@
 
-%.e.ms: %.ms
+%.e.me: %.me
 	myeqn < $< > $@
+
+%.html: %.me
+	groff $(opts) -P-i300 -Thtml $< > $@
 
 %.o.pdf: %.pdf
 	qpdf --empty --pages $< 1,r1,2-r2 -- $@
@@ -52,11 +55,8 @@ main.s.ms: $(shell ./global/depends.sh main.ms)
 %.dvi.ps: %.dvi
 	dvips $< -o $@
 
-%.dvi: %.ms
+%.dvi: %.me
 	groff $(opts) -Tdvi $< > $@
-
-loop:
-	ls *.ms | entr -s "make &"
 
 %.list: % global/list.sh
 	./global/list.sh $< > $@

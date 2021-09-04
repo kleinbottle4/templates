@@ -1,0 +1,24 @@
+.\".de @D		\" --- determine display type (Indent, Left, Center)
+.\".ds |p "\\$3
+.\".nr _d 0
+.\".if "\\$2"C" \
+.\".	nr _d 1
+.\".if "\\$2"L" \
+.\".	nr _d 2
+.\".if "\\$2"I" \
+.\".	nr _d 3
+.\".if "\\$2"M" \
+.\".	nr _d 4
+.\".if !\\n(_d \
+.\"\{\
+.\".	nr _d \\$1
+.\".	ds |p "\\$2
+.\".\}
+.\".
+.\"..
+.nr eqn-no 0 1
+.am EQ
+.  ds Eqn (\\n[ch].\\n+[eqn-no])
+.  ds |p "\\*[Eqn]
+.  if !''\\$1' .#e "\\$1
+..

@@ -1,2 +1,29 @@
+.so global/all.me
+.so global/index.me
 .so local.me
-.t "<++>" "<++>"
+.so main.ref
+.tp
+.TL
+<++>
+.AU
+<++>
+.DA
+.
+.++ P
+.
+.+c "Table of Contents"
+.so main.toc
+.xp
+.
+.++ C
+.
+.+c "<++>"
+.
+.pp
+<++>
+.
+.++ B
+.
+.+c "Index"
+.
+.xp index
