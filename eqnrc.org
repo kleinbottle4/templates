@@ -1,0 +1,622 @@
+#+property: header-args :tangle eqnrc.nroff
+
+/usr/share/groff/site-tmac/eqnrc is a soft link to eqnrc.nroff
+
+* brackets
+  #+begin_src nroff
+  .EQ
+  delim $$
+  sdefine ((    '{ left "("'
+  sdefine ))    'right ")" }'
+  sdefine [[    '{ left "["'
+  sdefine ]]    'right "]" }'
+  sdefine l|    "{ left |"
+  sdefine r|    "right | }"
+  sdefine lc    "{ left {"
+  sdefine rc    "right } }"
+  sdefine lC    "\[lC]"
+  sdefine rC    "\[rC]"
+  sdefine l<    "\[la]"
+  sdefine r>    "\[ra]"
+  #+end_src
+  
+* positioning and fractions
+  #+begin_src nroff 
+  sdefine ab    "above"
+  sdefine &     "above"
+  sdefine /     "over"
+  sdefine //    "smallover"
+  sdefine ov    "over"
+  sdefine fr    "from"
+  sdefine @     "sup"
+  sdefine '     "sup"
+  sdefine _     "sub"
+  sdefine `     "accent"
+  sdefine &=    "lineup ="
+  sdefine &==    "lineup =="
+  sdefine %=    "mark ="
+  sdefine %%    "mark"
+  define simul %{left "{" pile {{$1} above {$2}} right ""}%
+  define frac  %{ {$1} over {$2} }%
+  #+end_src
+
+* calculus
+  #+begin_src nroff
+  sdefine pa    "partial"
+  sdefine del   "grad"
+  sdefine #del   "bold grad"
+  sdefine dash  "\[aa]"
+  sdefine dy    '{^roman d y}'
+  sdefine dx    '{^roman d x}'
+  sdefine du    '{^roman d u}'
+  sdefine dt    '{^roman d t}'
+  sdefine d'h    '{^roman d theta}'
+  sdefine dz    '{^roman d z}'
+  sdefine Fourier '"\s+4\f[ZCMI]F\fP\s0"'
+  sdefine Laplace '"\s+4\f[ZCMI]L\fP\s0"'
+  sdefine Comp    '"\s+4\f[ZCMI]C\fP\s0"'
+  sdefine eval    '~"\s+8\fR|\fP\s0"'
+  sdefine iint '{type "operator" vcenter size +8 \(is\(is }'
+  sdefine iiint '{type "operator" vcenter size +8 \(is\(is\(is }'
+  sdefine -inf  "{- inf}"
+  define de    %{ {roman d $1} over {roman d $2} }%
+  define pd    %{ {partial $1} over {partial $2} }%
+  define sde   %{ {roman d $1} smallover {roman d $2} }%
+  define spd   %{ {partial $1} smallover {partial $2} }%
+  define 'log  %{ log sub {$1} $2 }%
+  #+end_src
+
+* communication
+  #+begin_src nroff
+  sdefine RHS  '{roman "RHS"}'
+  sdefine LHS  '{roman "LHS"}'
+  sdefine RTP: '{roman "RTP:"~}'
+  sdefine s.t. '{~roman "s.t."~}'
+  sdefine Let  '{roman "Let"~}'
+  sdefine contr "{-> back 10 <-}"
+  sdefine -><-  "{->         back        10         <-}"
+  sdefine :=  '{type "relation" roman ":="}'
+  #+end_src
+
+* algebra
+  #+begin_src nroff 
+  sdefine inv   "sup {-1}"
+  sdefine blob  '\[u2218]'
+  sdefine tr    "sup {roman T}"
+  sdefine *     '{type "binary" times}'
+  sdefine .     '{type "binary" cdot}'
+  sdefine det '{type "operator" roman "det"}'
+  sdefine :   '{type "relation" roman ":"}'
+  sdefine vdots '{type "relation" \[u22EE]}'
+  sdefine ddots '{type "relation" \[u22F1]}'
+  sdefine Ddots '{type "relation" \[u22F0]}'
+  sdefine map   '{type "relation" \[u21A6]}'
+  sdefine c+  %{type "binary" \[c+]}%
+  sdefine C+  '{type "operator" vcenter size +5 \(c+}'
+  sdefine k*  %{type "binary" \[c*]}%
+  define hat   %{ $1 accent "^" }%
+  define mag   %{ left | $1 right | }%
+  define mag2  %{ left | $1 right | sup 2 }%
+  #+end_src
+** vectors
+*** vec
+  #+begin_src nroff
+  define vec4  %{ left ( pile { $1 above $2 above $3 above 4 } right ) }%
+  define vec3  %{ left ( pile { $1 above $2 above $3         } right ) }%
+  define vec2  %{ left ( pile { $1 above $2                  } right ) }%
+  define rvec3 %{ left ( matrix { col { $1 } col { $2 } col { $3 } } right ) }%
+  define Vec3 %{ left ( pile { $1 sub 1 above $1 sub 2 above $1 sub 3 } right ) }%
+  define Rvec3 %{
+    left ( matrix {
+      col { $1 sub 1 }
+      col { $1 sub 2 }
+      col { $1 sub 3 }
+  } right ) }%
+  #+end_src
+
+*** cross
+    #+begin_src nroff 
+    define cross %{
+      vec3({$1} _ 2 {$2} _ 3 - {$1} _ 3 {$2} _ 2 ,
+        {$1} _ 3 {$2} _ 1 - {$1} _ 1 {$2} _ 3 ,
+        {$1} _ 1 {$2} _ 2 - {$1} _ 2 {$2} _ 1)
+    }%
+    define Cross %{
+      Det3(#i, #j, #k,
+        {$1} _ 1 , {$1} _ 2, {$1} _ 3,
+        {$2} _ 1 , {$2} _ 2, {$2} _ 3)
+    }%
+    #+end_src
+  
+*** dotdot
+    #+begin_src nroff
+    sdefine .. 'dotdot'
+    sdefine a.. '{bold a dotdot}'
+    sdefine b.. '{bold b dotdot}'
+    sdefine c.. '{bold c dotdot}'
+    sdefine d.. '{bold d dotdot}'
+    sdefine e.. '{bold e dotdot}'
+    sdefine f.. '{bold f dotdot}'
+    sdefine g.. '{bold g dotdot}'
+    sdefine h.. '{bold h dotdot}'
+    sdefine i.. '{bold i dotdot}'
+    sdefine j.. '{bold j dotdot}'
+    sdefine k.. '{bold k dotdot}'
+    sdefine l.. '{bold l dotdot}'
+    sdefine m.. '{bold m dotdot}'
+    sdefine n.. '{bold n dotdot}'
+    sdefine o.. '{bold o dotdot}'
+    sdefine p.. '{bold p dotdot}'
+    sdefine q.. '{bold q dotdot}'
+    sdefine r.. '{bold r dotdot}'
+    sdefine s.. '{bold s dotdot}'
+    sdefine t.. '{bold t dotdot}'
+    sdefine u.. '{bold u dotdot}'
+    sdefine v.. '{bold v dotdot}'
+    sdefine w.. '{bold w dotdot}'
+    sdefine x.. '{bold x dotdot}'
+    sdefine y.. '{bold y dotdot}'
+    sdefine z.. '{bold z dotdot}'
+    sdefine A.. '{bold A dotdot}'
+    sdefine B.. '{bold B dotdot}'
+    sdefine C.. '{bold C dotdot}'
+    sdefine D.. '{bold D dotdot}'
+    sdefine E.. '{bold E dotdot}'
+    sdefine F.. '{bold F dotdot}'
+    sdefine G.. '{bold G dotdot}'
+    sdefine H.. '{bold H dotdot}'
+    sdefine I.. '{bold I dotdot}'
+    sdefine J.. '{bold J dotdot}'
+    sdefine K.. '{bold K dotdot}'
+    sdefine L.. '{bold L dotdot}'
+    sdefine M.. '{bold M dotdot}'
+    sdefine N.. '{bold N dotdot}'
+    sdefine O.. '{bold O dotdot}'
+    sdefine P.. '{bold P dotdot}'
+    sdefine Q.. '{bold Q dotdot}'
+    sdefine R.. '{bold R dotdot}'
+    sdefine S.. '{bold S dotdot}'
+    sdefine T.. '{bold T dotdot}'
+    sdefine U.. '{bold U dotdot}'
+    sdefine V.. '{bold V dotdot}'
+    sdefine W.. '{bold W dotdot}'
+    sdefine X.. '{bold X dotdot}'
+    sdefine Y.. '{bold Y dotdot}'
+    sdefine Z.. '{bold Z dotdot}'
+    sdefine th. '{theta dot}'
+    sdefine th.. '{theta dotdot}'
+    sdefine om.  '{omega dot}'
+    sdefine om.. '{omega dotdot}'
+    sdefine ).   ') dot'
+    sdefine )).  ')) dot'
+    sdefine bdot '" " dot'
+    sdefine dot_def    'bold "\[a.]"'
+    sdefine dotdot_def 'bold "\[ad]"' 
+   #+end_src
+
+*** dot
+    #+begin_src nroff
+    sdefine a. '{bold a dot}'
+    sdefine b. '{bold b dot}'
+    sdefine c. '{bold c dot}'
+    sdefine d. '{bold d dot}'
+    sdefine e. '{bold e dot}'
+    sdefine f. '{bold f dot}'
+    sdefine g. '{bold g dot}'
+    sdefine h. '{bold h dot}'
+    sdefine i. '{bold i dot}'
+    sdefine j. '{bold j dot}'
+    sdefine k. '{bold k dot}'
+    sdefine l. '{bold l dot}'
+    sdefine m. '{bold m dot}'
+    sdefine n. '{bold n dot}'
+    sdefine o. '{bold o dot}'
+    sdefine p. '{bold p dot}'
+    sdefine q. '{bold q dot}'
+    sdefine r. '{bold r dot}'
+    sdefine s. '{bold s dot}'
+    sdefine t. '{bold t dot}'
+    sdefine u. '{bold u dot}'
+    sdefine v. '{bold v dot}'
+    sdefine w. '{bold w dot}'
+    sdefine x. '{bold x dot}'
+    sdefine y. '{bold y dot}'
+    sdefine z. '{bold z dot}'
+    sdefine A. '{bold A dot}'
+    sdefine B. '{bold B dot}'
+    sdefine C. '{bold C dot}'
+    sdefine D. '{bold D dot}'
+    sdefine E. '{bold E dot}'
+    sdefine F. '{bold F dot}'
+    sdefine G. '{bold G dot}'
+    sdefine H. '{bold H dot}'
+    sdefine I. '{bold I dot}'
+    sdefine J. '{bold J dot}'
+    sdefine K. '{bold K dot}'
+    sdefine L. '{bold L dot}'
+    sdefine M. '{bold M dot}'
+    sdefine N. '{bold N dot}'
+    sdefine O. '{bold O dot}'
+    sdefine P. '{bold P dot}'
+    sdefine Q. '{bold Q dot}'
+    sdefine R. '{bold R dot}'
+    sdefine S. '{bold S dot}'
+    sdefine T. '{bold T dot}'
+    sdefine U. '{bold U dot}'
+    sdefine V. '{bold V dot}'
+    sdefine W. '{bold W dot}'
+    sdefine X. '{bold X dot}'
+    sdefine Y. '{bold Y dot}'
+    sdefine Z. '{bold Z dot}'
+    #+end_src
+
+** matrices
+*** det
+  #+begin_src nroff
+  define Det3 %{ left |
+    matrix {
+      col { $1 above $2 above $3 }
+      col { $4 above $5 above $6 }
+      col { $7 above $8 above $9 }
+    }
+    right |
+  }%
+  define det3 %{ left |
+    matrix {
+      col { $1 above $4 above $7 }
+      col { $2 above $5 above $8 }
+      col { $3 above $6 above $9 }
+    }
+    right |
+  }%
+  define det2 %{ left |
+    matrix {
+      col { $1 above $2 }
+      col { $3 above $4 }
+    }
+    right |
+  }%
+  define DET3 %{ left |
+    matrix {
+      col { $1 sub 1 above $1 sub 2 above $1 sub 3 }
+      col { $2 sub 1 above $2 sub 2 above $2 sub 3 }
+      col { $3 sub 1 above $3 sub 2 above $3 sub 3 }
+    }
+    right |
+  }%
+  #+end_src
+
+*** mat
+    #+begin_src nroff 
+    sdefine (v %(( pile {%
+    sdefine )v %} ))%
+    sdefine (mat %{ left ( matrix { col {%
+    sdefine )mat %} } right ) }%
+    sdefine && '} col{'
+    define mat3 %{
+    left ( matrix {
+        col { $1 above $4 above $7 }
+        col { $2 above $5 above $8 }
+        col { $3 above $6 above $9 } } right )
+    }%
+    define Mat3 %{
+    left ( matrix {
+        col { $1 above $2 above $3 }
+        col { $4 above $5 above $6 }
+        col { $7 above $8 above $9 } } right )
+    }%
+    define mat2 %{
+    left ( matrix {
+        col { $1 above $3 }
+        col { $2 above $4 } } right )
+    }%
+    #+end_src
+
+* punctuation
+  #+begin_src nroff 
+  sdefine \.    '{type "relation" roman "."}'
+  sdefine \*    '{type "punctuation" "*"}'
+  sdefine @*    '\[**]'
+  define text %{roman {" $1 "}}%
+  #+end_src
+  
+* colours
+  #+begin_src nroff 
+  define RD %{ "\m[firebrick]" $1 "\m[]" }%
+  define PL %{ "\m[purple4]" $1 "\m[]" }%
+  define BL %{ "\m[royalblue]" $1 "\m[]" }%
+  #+end_src
+
+* geometry
+  #+begin_src nroff 
+  sdefine csc '{type "operator" roman "csc"}'
+  sdefine cot '{type "operator" roman "cot"}'
+  sdefine sec '{type "operator" roman "sec"}'
+  sdefine cis '{type "operator" roman "cis"}'
+  sdefine tri   "\[u2206]"
+  sdefine pt  '{type "relation" \[pt] }'
+  sdefine pp  '{type "relation" \[pp] }'
+  sdefine pr  '{type "relation" \[ba]\[ba] }'
+  sdefine cg  '{type "relation" "\[=~]"}'
+  sdefine ap  '{type "relation" "\[~~]"}'
+  sdefine sim '{type "relation" \(ti}'
+  #+end_src
+
+* number theory
+  #+begin_src nroff 
+  define pmod  %~ { left ( roman "mod " $1 right ) }%
+  sdefine mod  %~{type "operator" roman "mod" }~%
+  sdefine div '{type "relation" roman "\[ba]"}'
+  sdefine ndiv '{type "relation" \[u2224]}'
+  define choose %{type "operator" left ( pile { $1 above $2 } right ) }%
+  define floor %{ \(lf $1 \(rf }%
+  #+end_src
+
+* logic
+  #+begin_src nroff 
+  sdefine lg    '{type "relation" \[u22A2]}'
+  sdefine noif  '{type "relation" \[nRightarrow]}'
+  sdefine nif   '{type "relation" \[nLeftarrow]}'
+  sdefine niff  '{type "relation" \[u21CE]}'
+  sdefine NO    '{type "binary" \[no]}'
+  sdefine AN    '{type "binary" \[AN]}'
+  sdefine OR    '{type "binary" \[OR]}'
+  sdefine lnot  'NO'
+  sdefine land  'AN'
+  sdefine lor   'OR'
+  sdefine tf  '{type "relation" \[tf]}'
+  sdefine hA '{type "relation" \[hA]}'
+  sdefine rA '{type "relation" \[rA]}'
+  sdefine lA  '{type "relation" \[lA]}'
+  sdefine iff 'hA'
+  sdefine oif 'rA'
+  sdefine if  'lA'
+  #+end_src
+* sets
+  #+begin_src nroff 
+  sdefine es  %\[es]%
+  sdefine mo  %{type "relation" \[mo] }%
+  sdefine om  '{type "relation" \[st]}'
+  sdefine nm  %{type "relation" \[nm]}%
+  sdefine fa  '{type "operator" \[fa] }'
+  sdefine te  '{type "operator" \[te] }'
+  sdefine sb  %{type "relation" \[sb]}%
+  sdefine nb  %{type "relation" \[nb]}%
+  sdefine sp  %{type "relation" \[sp]}%
+  sdefine nc  %{type "relation" \[nc]}%
+  sdefine ib  %{type "relation" \[ib]}%
+  sdefine ip  %{type "relation" \[ip]}%
+  sdefine ca  %{type "binary" \[ca]}%
+  sdefine cu  %{type "binary" \[cu]}%
+  sdefine ne  '{type "relation" \[ne] }'
+  #+end_src
+* font style
+** roman
+   #+begin_src nroff
+   sdefine rm "roman"
+   sdefine &A 'roman "A"'
+   sdefine &B 'roman "B"'
+   sdefine &C 'roman "C"'
+   sdefine &D 'roman "D"'
+   sdefine &E 'roman "E"'
+   sdefine &F 'roman "F"'
+   sdefine &G 'roman "G"'
+   sdefine &H 'roman "H"'
+   sdefine &I 'roman "I"'
+   sdefine &J 'roman "J"'
+   sdefine &K 'roman "K"'
+   sdefine &L 'roman "L"'
+   sdefine &M 'roman "M"'
+   sdefine &N 'roman "N"'
+   sdefine &O 'roman "O"'
+   sdefine &P 'roman "P"'
+   sdefine &Q 'roman "Q"'
+   sdefine &R 'roman "R"'
+   sdefine &S 'roman "S"'
+   sdefine &T 'roman "T"'
+   sdefine &U 'roman "U"'
+   sdefine &V 'roman "V"'
+   sdefine &W 'roman "W"'
+   sdefine &X 'roman "X"'
+   sdefine &Y 'roman "Y"'
+   sdefine &Z 'roman "Z"'
+   sdefine &a 'roman "a"'
+   sdefine &b 'roman "b"'
+   sdefine &c 'roman "c"'
+   sdefine &d 'roman "d"'
+   sdefine &e 'roman "e"'
+   sdefine &f 'roman "f"'
+   sdefine &g 'roman "g"'
+   sdefine &h 'roman "h"'
+   sdefine &i 'roman "i"'
+   sdefine &j 'roman "j"'
+   sdefine &k 'roman "k"'
+   sdefine &l 'roman "l"'
+   sdefine &m 'roman "m"'
+   sdefine &n 'roman "n"'
+   sdefine &o 'roman "o"'
+   sdefine &p 'roman "p"'
+   sdefine &q 'roman "q"'
+   sdefine &r 'roman "r"'
+   sdefine &s 'roman "s"'
+   sdefine &t 'roman "t"'
+   sdefine &u 'roman "u"'
+   sdefine &v 'roman "v"'
+   sdefine &w 'roman "w"'
+   sdefine &x 'roman "x"'
+   sdefine &y 'roman "y"'
+   sdefine &z 'roman "z"'
+   #+end_src
+** bold
+   #+begin_src nroff
+   sdefine # "bold"
+   sdefine ## '"#"'
+   sdefine #a "bold a"
+   sdefine #b "bold b"
+   sdefine #c "bold c"
+   sdefine #d "bold d"
+   sdefine #e "bold e"
+   sdefine #f "bold f"
+   sdefine #g "bold g"
+   sdefine #h "bold h"
+   sdefine #i "bold i"
+   sdefine #j "bold j"
+   sdefine #k "bold k"
+   sdefine #l "bold l"
+   sdefine #m "bold m"
+   sdefine #n "bold n"
+   sdefine #o "bold o"
+   sdefine #p "bold p"
+   sdefine #q "bold q"
+   sdefine #r "bold r"
+   sdefine #s "bold s"
+   sdefine #t "bold t"
+   sdefine #u "bold u"
+   sdefine #v "bold v"
+   sdefine #w "bold w"
+   sdefine #x "bold x"
+   sdefine #y "bold y"
+   sdefine #z "bold z"
+   sdefine #A "bold A"
+   sdefine #B "bold B"
+   sdefine #C "bold C"
+   sdefine #D "bold D"
+   sdefine #E "bold E"
+   sdefine #F "bold F"
+   sdefine #G "bold G"
+   sdefine #H "bold H"
+   sdefine #I "bold I"
+   sdefine #J "bold J"
+   sdefine #K "bold K"
+   sdefine #L "bold L"
+   sdefine #M "bold M"
+   sdefine #N "bold N"
+   sdefine #O "bold O"
+   sdefine #P "bold P"
+   sdefine #Q "bold Q"
+   sdefine #R "bold R"
+   sdefine #S "bold S"
+   sdefine #T "bold T"
+   sdefine #U "bold U"
+   sdefine #V "bold V"
+   sdefine #W "bold W"
+   sdefine #X "bold X"
+   sdefine #Y "bold Y"
+   sdefine #Z "bold Z"
+   #+end_src
+** blackboard
+  #+begin_src nroff
+  sdefine @N '\[BbbN]'
+  sdefine @Z '\[BbbZ]'
+  sdefine @Q '\[BbbQ]'
+  sdefine @R '\[BbbR]'
+  sdefine @C '\[BbbC]'
+  sdefine @H '\[BbbH]'
+  sdefine @Z+ '{@Z sup +}'
+  sdefine @N+ '{@N sup +}'
+  #+end_src
+** greek
+   #+begin_src nroff
+   sdefine 'A %Alpha%
+   sdefine 'B %Beta%
+   sdefine 'G %Gamma%
+   sdefine 'D %Delta%
+   sdefine 'E %Epsilon%
+   sdefine 'Z %Zeta%
+   sdefine 'Y %Eta%
+   sdefine 'H %Theta%
+   sdefine 'I %Iota%
+   sdefine 'K %Kappa%
+   sdefine 'L %Lambda%
+   sdefine 'M %Mu%
+   sdefine 'N %Nu%
+   sdefine 'C %Xi%
+   sdefine 'O %Omicron%
+   sdefine 'P %Pi%
+   sdefine 'R %Rho%
+   sdefine 'S %Sigma%
+   sdefine 'T %Tau%
+   sdefine 'U %Upsilon%
+   sdefine 'F %Phi%
+   sdefine 'X %Chi%
+   sdefine 'Q %Psi%
+   sdefine 'W %Omega%
+   sdefine 'a %alpha%
+   sdefine 'b %beta%
+   sdefine 'g %gamma%
+   sdefine 'd %delta%
+   sdefine 'e %epsilon%
+   sdefine 'z %zeta%
+   sdefine 'y %eta%
+   sdefine 'h %theta%
+   sdefine 'i %iota%
+   sdefine 'k %kappa%
+   sdefine 'l %lambda%
+   sdefine 'm %mu%
+   sdefine 'n %nu%
+   sdefine 'c %xi%
+   sdefine 'o %omicron%
+   sdefine 'p %pi%
+   sdefine 'r %rho%
+   sdefine 's %sigma%
+   sdefine 't %tau%
+   sdefine 'u %upsilon%
+   sdefine 'f %phi%
+   sdefine 'x %chi%
+   sdefine 'q %psi%
+   sdefine 'w %omega%
+#+end_src
+*** bold
+   #+begin_src nroff
+   sdefine #'A %{bold Alpha}%
+   sdefine #'B %{bold Beta}%
+   sdefine #'G %{bold Gamma}%
+   sdefine #'D %{bold Delta}%
+   sdefine #'E %{bold Epsilon}%
+   sdefine #'Z %{bold Zeta}%
+   sdefine #'Y %{bold Eta}%
+   sdefine #'H %{bold Theta}%
+   sdefine #'I %{bold Iota}%
+   sdefine #'K %{bold Kappa}%
+   sdefine #'L %{bold Lambda}%
+   sdefine #'M %{bold Mu}%
+   sdefine #'N %{bold Nu}%
+   sdefine #'C %{bold Xi}%
+   sdefine #'O %{bold Omicron}%
+   sdefine #'P %{bold Pi}%
+   sdefine #'R %{bold Rho}%
+   sdefine #'S %{bold Sigma}%
+   sdefine #'T %{bold Tau}%
+   sdefine #'U %{bold Upsilon}%
+   sdefine #'F %{bold Phi}%
+   sdefine #'X %{bold Chi}%
+   sdefine #'Q %{bold Psi}%
+   sdefine #'W %{bold Omega}%
+   sdefine #'a %{bold alpha}%
+   sdefine #'b %{bold beta}%
+   sdefine #'g %{bold gamma}%
+   sdefine #'d %{bold delta}%
+   sdefine #'e %{bold epsilon}%
+   sdefine #'z %{bold zeta}%
+   sdefine #'y %{bold eta}%
+   sdefine #'h %{bold theta}%
+   sdefine #'i %{bold iota}%
+   sdefine #'k %{bold kappa}%
+   sdefine #'l %{bold lambda}%
+   sdefine #'m %{bold mu}%
+   sdefine #'n %{bold nu}%
+   sdefine #'c %{bold xi}%
+   sdefine #'o %{bold omicron}%
+   sdefine #'p %{bold pi}%
+   sdefine #'r %{bold rho}%
+   sdefine #'s %{bold sigma}%
+   sdefine #'t %{bold tau}%
+   sdefine #'u %{bold upsilon}%
+   sdefine #'f %{bold phi}%
+   sdefine #'x %{bold chi}%
+   sdefine #'q %{bold psi}%
+   sdefine #'w %{bold omega}%
+   sdefine '2 %sup 2%
+   sdefine '3 %sup 3%
+   .EN
+   #+end_src
