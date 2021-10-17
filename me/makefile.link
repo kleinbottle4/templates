@@ -1,11 +1,16 @@
 # vim: set ft=make:
-opts = -me -k -b -e -t -p -U -R
+opts = -me -Kutf-8 -e -t -p -U -R
 goal = main.s.e.ps.pdf
-goal2 = main.s.e.pdf
+goal2 = main.s.e.dvi.pdf
 
 goal: dummy $(goal)
 
 goal2: dummy $(goal2)
+
+draft: draft.s.e.ps.pdf
+
+draft.me: main.me
+	(echo '.nr sp 16'; echo '.nr pp 14'; cat main.me) > draft.me
 
 view: goal
 	zathura --fork $(goal)
@@ -14,7 +19,7 @@ view2: goal2
 	zathura --fork $(goal2)
 
 dummy: $(shell ./global/depends.sh main.me)
-	soelim main.me | myeqn | eqn | troff -me -U 1> /dev/null 2> /dev/null
+	soelim main.me | myeqn | eqn 2>/dev/null | troff -me -U 1> /dev/null 2> /dev/null
 
 %.ps.pdf: %.ps
 	ps2pdf $< $@
@@ -67,4 +72,4 @@ del := $(wildcard main.ref main.toc main.s.* *.list)
 clean:
 	-rm $(del)
 
-.PHONY: goal goal2 loop clean dummy
+.PHONY: goal goal2 loop clean dummy draft

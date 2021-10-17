@@ -11,14 +11,15 @@ $a\
 	tr '' '@' |
 
 	nsed \
-'s!@\[m!\\m[black]\\f[R]!g
+'s!@\[m!\\m[black]!g
+s!@\[01;30m!@\[30m!g
+s!@\[01;34m!@\[34m!g
+s!@\[30m!\\m[grey30]!g
 s!@\[31m!\\m[firebrick]!g
 s!@\[32m!\\m[khakhi]!g
+s!@\[34m!\\m[darkslateblue]!g
 s!@\[35m!\\m[purple]!g
-s!@\[01;30m!\\f[B]\\m[grey30]!g
-s!@\[01;34m!\\f[B]\\m[darkslateblue]!g
 s!\$!\\(Do!g
-s!\^!\\(ha!g
-s!\~!\\(ti!g' |
+s!\^!\\(ha!g' |
 
 	Nawk '{printf "%2d: %s\n", NR, $0}'

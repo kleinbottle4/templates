@@ -7,3 +7,8 @@
 \newcommand{\smat}[1]{\left( \begin{smallmatrix} #1 \end{smallmatrix} \right)} % small (matrix)
 \newcommand{\tuple}[1]{\left\langle \begin{matrix} #1 \end{matrix}\right\rangle}
 \newcommand{\mat}[1]{\pmat{#1}}
+\newcommand{\pa}{\partial}
+\newcommand{\lA}{\langle}
+\newcommand{\rA}{\rangle}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\de}[2]{\frac{\mathrm d #1}{\mathrm d #2}}

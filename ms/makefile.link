@@ -1,5 +1,5 @@
 # vim: set ft=make:
-opts = -ms -k -b -e -t -U
+opts = -ms -Kutf-8 -b -e -t -U
 goal = main.s.e.ps.pdf
 goal2 = main.s.e.dvi.pdf
 

@@ -33,6 +33,7 @@
 .  write toc .)x \\n%
 ..
 .ds Chapter Chapter \" can be changed to match language
+.ds CHAPTER CHAPTER \" can be changed to match language
 .de $C
 .\" $1 = (Chapter|Appendix)
 .\" $2 = \n(ch
@@ -55,16 +56,18 @@
 .  write toc \\*[first-word] \\n[ch].   \\*[ch-string]
 .  write toc .  ft
 .  write toc .)x _
+.\" Equations
+.  nr eqn-no 0 1
 ..
 .de -c \" end chapter
 .  uh "Chapter Notes"
 .  pd \" print delayed text
 ..
+.ds TOCs "Table of Contents \" Can be overridden by deutsch.me
 .de TOC
-.  ds TOC "Table of Contents
-.  ds ch-string \\*[TOC]
-.  ds sh-string \\*[TOC]
+.  ds ch-string \\*[TOCs]
+.  ds sh-string \\*[TOCs]
 .  ds $n 0
-.  +c "\\*[TOC]"
+.  +c "\\*[TOCs]"
 .  xp
 ..

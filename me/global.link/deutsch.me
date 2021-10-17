@@ -1,4 +1,4 @@
-.EQ
+.EQ N
 delim off
 .EN
 .\" datum
@@ -19,14 +19,16 @@ delim off
 .if \n(dw=7 .ds dw Samstag
 .ds td \n(dy. \*(mo \n(y4
 .\" kapitel
-.ds Chapter Kapitel
+.ds Chapter Einheit
+.ds CHAPTER EINHEIT
+.ds TOCs Inhaltsangabe
 .de $c                  \" $$$ print chapter title
 .  sz 12
 .  ft 3
 .  ce 1000
 .  if \\n(_M<3 \
 .         nr ch +1
-.  ie \\n(_M=1 KAPITEL\ \ \\n(ch
+.  ie \\n(_M=1 \\*[CHAPTER]\ \ \\n(ch
 .  el .if \\n(_M=2 APPENDIX\ \ \\n(ch
 .  if \w"\\$1" .sp 3-\\n(.L
 .  if \w"\\$1" \\$1
@@ -44,6 +46,6 @@ delim off
 .de q                   \" *** enter quoted word
 \&\\$3,,\\$1``\\$2
 ..
-.EQ
+.EQ N
 delim on
 .EN
