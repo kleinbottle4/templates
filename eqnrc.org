@@ -20,6 +20,7 @@
   sdefine r>    "\[ra]"
   #+end_src
   
+
 * positioning and fractions
   #+begin_src nroff 
   sdefine ab    "above"
@@ -46,12 +47,6 @@
   sdefine del   "grad"
   sdefine #del   "bold grad"
   sdefine dash  "\[aa]"
-  sdefine dy    '{^roman d y}'
-  sdefine dx    '{^roman d x}'
-  sdefine du    '{^roman d u}'
-  sdefine dt    '{^roman d t}'
-  sdefine d'h    '{^roman d theta}'
-  sdefine dz    '{^roman d z}'
   sdefine Fourier '"\s+4\f[ZCMI]F\fP\s0"'
   sdefine Laplace '"\s+4\f[ZCMI]L\fP\s0"'
   sdefine Comp    '"\s+4\f[ZCMI]C\fP\s0"'
@@ -60,19 +55,29 @@
   sdefine iiint '{type "operator" vcenter size +8 \(is\(is\(is }'
   sdefine -inf  "{- inf}"
   define de    %{ {roman d $1} over {roman d $2} }%
+  define De    %{ {roman d (( $1 ))} over {roman d $2} }%
   define pd    %{ {partial $1} over {partial $2} }%
   define sde   %{ {roman d $1} smallover {roman d $2} }%
   define spd   %{ {partial $1} smallover {partial $2} }%
   define 'log  %{ log sub {$1} $2 }%
   #+end_src
-
+** roman d for derivative
+  #+begin_src nroff
+  sdefine dF    '{roman d F}'
+  sdefine dt    '{roman d t}'
+  sdefine du    '{roman d u}'
+  sdefine dx    '{roman d x}'
+  sdefine dy    '{roman d y}'
+  sdefine dz    '{roman d z}'
+  sdefine d'h   '{roman d theta}'
+  #+end_src
 * communication
   #+begin_src nroff
   sdefine RHS  '{roman "RHS"}'
   sdefine LHS  '{roman "LHS"}'
   sdefine RTP: '{roman "RTP:"~}'
   sdefine s.t. '{~roman "s.t."~}'
-  sdefine Let  '{roman "Let"~}'
+  sdefine let  '{roman "Let"~}'
   sdefine contr "{-> back 10 <-}"
   sdefine -><-  "{->         back        10         <-}"
   sdefine :=  '{type "relation" roman ":="}'
@@ -81,7 +86,8 @@
 * algebra
   #+begin_src nroff 
   sdefine inv   "sup {-1}"
-  sdefine blob  '\[u2218]'
+  sdefine blob  '{type "binary" vcenter size -3 \(ci}'
+  ifdef dvi !sdefine blob  '{type "binary" vcenter size -5 \(ci}'!
   sdefine tr    "sup {roman T}"
   sdefine *     '{type "binary" times}'
   sdefine .     '{type "binary" cdot}'
@@ -288,10 +294,10 @@
 
 *** mat
     #+begin_src nroff 
-    sdefine (v %(( pile {%
+    sdefine v( %(( pile {%
     sdefine )v %} ))%
-    sdefine (mat %{ left ( matrix { col {%
-    sdefine )mat %} } right ) }%
+    sdefine m( %{ left ( matrix { col {%
+    sdefine )m %} } right ) }%
     sdefine && '} col{'
     define mat3 %{
     left ( matrix {

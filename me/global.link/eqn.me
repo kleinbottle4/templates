@@ -1,4 +1,5 @@
 .nr eqn-no 0 1
+.ds eqn-sep .
 .am EQ
 .  \" Original -me EQ sets |p to be the
 .  \" number the user gives to the eqn.
@@ -10,16 +11,22 @@
 .  \"   ^ (These three assume you are using .EQ [LMCI] [NQA] ...
 .  \"     or .EQ [NQA] " " ... .)
 .  ie 'N'\\*(|p' .ds |p \\$3
-.  el .ie 'Q'\\*(|p' .ds |p "Q.E.D.
+.  el .ie '*'\\*(|p' .ds |p (\[**])
+.  el .ie '**'\\*(|p' .ds |p (\[**]\[**])
+.  el .ie 'Q'\\*(|p' .ds |p Q.E.D.
 .  el .ie 'A'\\*(|p' \{\
-.    ds Eqn (\\n[ch].\\n+[eqn-no])
+.    ds Eqn (\\n[ch]\\*[eqn-sep]\\n+[eqn-no])
 .    ds |p "\\$3\\*[Eqn]\\$4
 .  \}
 .  el \{
-.    ds Eqn (\\n[ch].\\n+[eqn-no])
+.    ds Eqn (\\n[ch]\\*[eqn-sep]\\n+[eqn-no])
 .    if !''\\*(|p' .#e "\\*(|p
 .    ds |p \\*[Eqn]
 .  \}
 .  \" In the special situations,
 .  \" one can use .#e <name> to add a label.
 ..
+.\" FIX ME!!!!!
+.EQ N
+ifdef ps !set delimiter\_factor 700!
+.EN

@@ -7,7 +7,7 @@ goal: dummy $(goal)
 
 goal2: dummy $(goal2)
 
-draft: draft.s.e.ps.pdf
+draft: dummy draft.s.e.X
 
 draft.me: main.me
 	(echo '.nr sp 16'; echo '.nr pp 14'; cat main.me) > draft.me

@@ -1,7 +1,7 @@
 # vim: set ft=make:
 opts = -ms -Kutf-8 -b -e -t -U
-goal = main.s.e.ps.pdf
-goal2 = main.s.e.dvi.pdf
+goal = main.pdf
+goal2 = main.ps
 
 goal: dummy $(goal)
 
@@ -11,7 +11,7 @@ view: goal
 	zathura --fork $(goal)
 
 view2: goal2
-	zathura --fork $(goal2)
+	gv $(goal2)
 
 dummy: $(shell ./global/depends.sh main.ms)
 	soelim main.ms | myeqn | eqn | troff -ms -U > /dev/null
